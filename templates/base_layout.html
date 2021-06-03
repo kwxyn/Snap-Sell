@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %} {% endblock %}
+    </title>
+    <link rel="icon" href="{% static 'images/Camera.png' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.all.min.css' %}"> {% block style %} {% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand navbar-light" style="height: 75px;">
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'images/Camera.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                <b>SNAP & SELL</b>
+            </a>
+
+            <ul class="navbar-nav ml-auto {% if request.user.is_authenticated %} mt-4 {% endif %}">
+
+                 <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'create' %}">
+                        <p class='btn m-0 index'>
+                            CREATE YOUR POST
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'my_posts' %}">
+                        <p class='btn m-0 index'>
+                            MY POST
+                        </p>
+                    </a>
+                </li>
+
+                    {% if request.user.is_authenticated %}
+                    {% comment %} <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'chat_index' %}">
+                            <p class='btn m-0 index'>
+                                CHAT ROOM
+                            </p>
+
+                        </a>
+                    </li> {% endcomment %}
+                    <li class="nav-item dropdown">
+                        <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ request.user.userprofile.avatar.url }}" width="40" height="40"
+                                class="rounded-circle">
+                        </a> -->
+                        <a class="nav-link dropdown-toggle my-circle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ request.user.userprofile.avatar.url }}" class="rounded-circle" style="width: 40px; height: 40px;">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'profile' request.user.id %}">MY PROFILE</a> {% if user.is_superuser %}
+                            <a class="dropdown-item" href="/admin">
+                            MANAGE POSTS <!--If user is a superuser-->
+                                </a> {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                            EDIT PROFILE
+                            </a>
+                            <a class="dropdown-item" href="{% url 'change_password' %}">
+                            CHANGE PASSWORD
+                            </a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">
+                            SIGN OUT  <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">
+                            <button class='btn'>REGISTER</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <button class='btn btn-outline-primary'>SIGN IN</button>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+        </div>
+    </nav>
+
+
+    {% block content %} {% endblock %}
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/axios.js' %}"></script>
+    {% block script %} {% endblock %}
+</body>
+
+</html>

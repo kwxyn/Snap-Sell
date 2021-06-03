@@ -1,0 +1,112 @@
+{% extends 'base_layout.html' %} {% load static %} {% block title %} SNAP & SELL : My post {% endblock %} {% block style %}
+<link rel="stylesheet" href="{% static 'css/tempus.css' %}"> {% endblock %} {% block content %}
+<div class="container">
+    <h1 class='mt-5 mb-5'> <b>My post</b> </h1>
+    {% if request.user.is_authenticated %} {% endif %}
+    <div class="container">
+        {% if posts == 'key' %}
+        <div class='col-lg-12 jumbotron text-center border border-dark'>
+            <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+            <h4 class='mb-3'>Please enter the key to find your post.</h4>
+            {% if key_error %}
+            <span class="text-danger">{{ key_error }}</span> {% endif %}
+            <form action="{% url 'my_posts' %}" method="POST" class=''>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4 my-3">
+                        <input id='id_key' type="text" name="key" class='form-control' placeholder='' required>
+                        <small class="form-text text-muted">The key is the code you set when creating your post</small>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4 my-1">
+                        <input type="submit" class='btn btn-block btn-primary' value="ยืนยัน">
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+
+            </form>
+        </div>
+
+        {% else %}
+        <div class="row">
+            {% if posts|length == 0 %}
+            <div class='col-lg-12 jumbotron text-center border border-dark'>
+                <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+                <h4>There are no posts that you have created</h4><br>
+                <div>
+                    <a href="{% url 'create' %}" class='btn btn-primary text-center '>Create your post</a>
+                </div>
+            </div>
+            {% endif %} {% for post in posts %}
+            <div class='col-lg-3 my-3'>
+                <div class="card h-100 w-100 text-dark mycard" style='border:none;'>
+                    <a href="{% url 'post_delete' post.id %}?key={{key}}">
+                        <img src="{% static 'images/close.png' %}" alt="" class='top-right-btn' width='35px'>
+                    </a>
+                    <a class="card h-100 w-100 mb-0 text-decoration-none text-dark" href="{% if post.is_active == False %} {% url 'detail' post.id %} {% else %} {% url 'edit_post' post.id %} {% endif %}">
+                        <div class="wrapper">
+                            {% if post.postpicture_set.all|length == 0 %}
+                            <img class="card-img-top" src="{% static 'images/post_default.gif' %}"> {% else %}
+                            <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}"> {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b>{{ post.title|truncatechars:20 }}</b>
+                            </h5>
+                            <div class="card-text">
+                                <p class='m-0'>
+                                    <small>
+                                            <b>Product Type : </b> <span id='assetType'>{{ post.assetType }}</span>
+                                        </small>
+                                </p>
+                                <p class='m-0'>
+                                    <small>
+                                            <b>Location : </b> <span id='location'> {{ post.location }} </span>
+                                        </small>
+                                </p>
+                                <p class='m-0'>
+                                    <small>
+                                            <b>Price : </b>$ <span id='price'> {{ post.price }} </span>
+                                        </small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                {% if post.type == 'selling' %}
+                                <span class="badge badge-pill badge-success text-light">Selling</span> {% else %}
+                                <span class="badge badge-pill badge-danger text-light">Buying</span> {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                    <b>Contact No : </b> <span id='contact1'> {{ post.contact1 }} </span>
+                                    <br>
+                                    <b>Email : </b> <span id='contact2'> {{ post.contact2 }} </span>
+                                    <br>
+                                    <b>By : </b> {% if post.user %} {{ post.user.username }} {% else %} User {% endif %}
+                                </small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %} {% block script %} {% if not request.user.is_authenticated %}
+<script>
+    $('#id_key').on('keypress', function(event) {
+        var press = event.keyCode;
+        if (press === 32) {
+            event.preventDefault();
+        }
+    });
+</script>
+{% endif %} {% endblock %}

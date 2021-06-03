@@ -1,0 +1,118 @@
+{% extends 'base_layout.html' %} {% load static %} {% block title %} SNAP & SELL : HOME {% endblock %} {% block style %}
+<link rel="stylesheet" href="{% static 'css/tempus.css' %}"> {% endblock %} {% block content %}
+<div class="container">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-7 mb-5">
+                <h1 class='display-3 font-weight-bold'>
+                    Welcome
+                    <br>
+                    <span class='text-primary'>
+                            {% if request.user.is_authenticated %}
+                                {{ user }}
+                            {% else %}
+                                User
+                            {% endif %}
+                        </span>
+                    <br> Snap & Sell
+                    <br>
+                </h1>
+                <p class="mt-4 display-5">A online marketplace for camera enthusiasts</p>
+
+                <div>
+                    <a href="{% url 'create' %}" class='btn btn-primary p-3 mt-3 ml-5'>Create your post</a>
+                </div>
+
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{% static 'images/Camera.gif' %}" class='img-fluid rotate-img' width="3500" height="2500">
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text-uppercase mb-1">Selling Posts</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{sellings|length}}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                <div class="card shadow h-100 py-2" style="border-left:.25rem solid #f0ad4e !important">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text-uppercase mb-1">Buying Posts</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ buyings | length }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-cart-arrow-down fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1 class='text-center my-5'>
+        <b> All Listings </b>
+        <span class="badge badge-pill badge-dark text-light "> {{ all }} </span>
+    </h1>
+
+    <div class="container ">
+        <div class="form-row mb-3 justify-content-center ">
+            <div class="col-4 ">
+                <label for=" ">Product Name</label>
+                <input type="text " class="form-control " placeholder="name " id='title'>
+            </div>
+            <div class="col-4 ">
+                <label for=" ">Product Type</label>
+                <select class='form-control' id='assetType'>
+                        <!-- Asset Type'll be here -->
+                    </select>
+            </div>
+        </div>
+
+        <div class="row " id='all_post'>
+            {% if posts|length == 0 %}
+            <div class='col-lg-12 jumbotron text-center border border-dark'>
+                <img src="{% static 'images/post.png' %} " width='15%' class='mb-5'>
+                <h4>No post</h4>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer only index -->
+<footer class='mt-4'>
+    <div style="height: 150px; overflow: hidden; ">
+        <svg viewBox="0 0 500 150 " preserveAspectRatio="none " style="height: 100%; width: 100%; ">
+                <rect x="0" y="0" width="100%" height="100%" style="stroke: none; fill: #0275d8"/>
+            </svg>
+
+
+    </div>
+</footer>
+{% endblock %} {% block script %}
+<script type="text/javascript " src="{% static 'js/moment.js' %} "></script>
+<script type="text/javascript " src="{% static 'js/tempus.js' %} "></script>
+<script type="text/javascript " src="{% static 'js/local.js' %} "></script>
+<script type="text/javascript " src="{% static 'js/index_script.js' %} "></script>
+{% endblock %}
