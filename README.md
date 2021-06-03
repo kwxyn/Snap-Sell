@@ -2,7 +2,7 @@
 
 Link: http://kwans1995.pythonanywhere.com
 
-A online marketplace for selling and buying camera related products such as DSLR, tripod, lens and many more. This E-commerce website for you sell your camera for cash or buy a camera that you are searching based on their specification, price. This project is built with Django framework in back end and  HTML, CSS and Javascript in front end.
+A online marketplace for selling and buying camera related products such as DSLR, tripod, lens and many more. This E-commerce website provides a online marketplace to sell your camera for cash or buy a camera that you are searching based on their specification, price. This project is built with Django framework in back end and HTML, CSS and Javascript framework for the front end.
 
 Key features:
 Create, edit and delete post
